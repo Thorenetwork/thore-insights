@@ -6,7 +6,7 @@ interface VideoPlayerProps {
   onClose: () => void;
 }
 
-const VideoPlayer = ({ onClose }: VideoPlayerProps) => {
+const VideoPlayer = ({ onWatchVideo }: VideoPlayerProps) => {
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
       <div className="relative w-full max-w-4xl bg-white rounded-lg overflow-hidden animate-scale-in">
@@ -25,22 +25,34 @@ const VideoPlayer = ({ onClose }: VideoPlayerProps) => {
         <div className="aspect-video bg-black flex items-center justify-center">
           <video
             controls
-            autoPlay
-            className="w-full h-full object-cover"
-            poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgdmlld0JveD0iMCAwIDgwMCA0NTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNDUwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8ZGVmcz4KPGXW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZjk3MzE2O3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNlZjQ0NDQ7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHRLEHU4IHg9IjQwMCIgeT0iMjI1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIyNHB4IiBmb250LWZhbWlseT0iQXJpYWwiPkluZGljIExhbmd1YWdlIFByb2plY3Q8L3RleHQ+Cjwvc3ZnPgo="
+            className="w-full h-full"
+            poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgdmlld0JveD0iMCAwIDgwMCA0NTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNDUwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmOTczMTY7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VmNDQ0NDtzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8dGV4dCB4PSI0MDAiIHk9IjIyNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMjRweCIgZm9udC1mYW1pbHk9IkFyaWFsIj5JbmRpYyBMYW5ndWFnZSBQcm9qZWN0PC90ZXh0Pgo8L3N2Zz4K"
           >
-            {/* Video source - You can replace this with actual video URL */}
+            {/* Multiple video sources for better compatibility */}
             <source 
-              src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" 
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
               type="video/mp4" 
             />
-            <p className="text-white text-center p-8">
-              Your browser doesn't support HTML5 video. 
-              <br />
-              <a href="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" className="text-orange-400 underline">
-                Download the video instead
-              </a>
-            </p>
+            <source 
+              src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" 
+              type="video/mp4" 
+            />
+            
+            {/* Fallback content when video fails to load */}
+            <div className="text-white text-center p-8 bg-gradient-to-br from-orange-500 to-red-500 w-full h-full flex flex-col items-center justify-center">
+              <h3 className="text-2xl font-bold mb-4">Thore Network Indic Language Project</h3>
+              <p className="text-lg mb-6">Video Presentation</p>
+              <div className="space-y-2 text-sm max-w-md">
+                <p>• Comprehensive overview of our Indic language platform</p>
+                <p>• 22+ Indian languages supported</p>
+                <p>• Advanced NLP and AI technologies</p>
+                <p>• Real-world implementation examples</p>
+                <p>• Future roadmap and partnerships</p>
+              </div>
+              <p className="text-xs mt-6 opacity-75">
+                Video loading... If this persists, please check your internet connection.
+              </p>
+            </div>
           </video>
         </div>
         
