@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Play, Languages } from 'lucide-react';
@@ -21,15 +22,17 @@ const Header = ({ onWatchVideo }: HeaderProps) => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-              <Languages className="w-6 h-6 text-white" />
-            </div>
+          <div className="flex items-center space-x-4">
+            <img 
+              src="/lovable-uploads/ba9957ad-65c7-4fb1-8e5d-9e9e114037c2.png" 
+              alt="ThoreCoin Logo" 
+              className="w-16 h-16 object-contain"
+            />
             <div>
-              <h1 className="font-bold text-xl text-gray-900">Indic Language Revolution</h1>
-              <p className="text-xs text-gray-600">Empowering Bharat with AI-powered Language Solutions</p>
+              <h1 className="font-bold text-xl text-gray-900">Thore Network PVT LTD</h1>
+              <p className="text-xs text-gray-600">Indic Language Revolution Project</p>
             </div>
           </div>
 
