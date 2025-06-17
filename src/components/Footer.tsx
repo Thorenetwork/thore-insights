@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
@@ -105,7 +104,7 @@ const Footer = () => {
               <div className="space-y-3 text-sm">
                 <div className="flex items-center">
                   <Mail className="w-4 h-4 mr-3 text-orange-500" />
-                  <span className="text-gray-400">hello@indiclanguage.in</span>
+                  <span className="text-gray-400">info@thorenetwork.com</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="w-4 h-4 mr-3 text-orange-500" />
@@ -221,7 +220,7 @@ const Footer = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between text-sm text-gray-400">
             <div className="mb-4 md:mb-0">
-              © 2024 Indic Language Revolution. All rights reserved.
+              © 2025-2027 Thore Network PVT LTD. All rights reserved.
             </div>
             <div className="flex space-x-6">
               <a href="#privacy" className="hover:text-orange-500 transition-colors">Privacy Policy</a>
