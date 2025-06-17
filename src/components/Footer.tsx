@@ -20,7 +20,8 @@ const Footer = () => {
       { name: "Language Translation", href: "#solutions" },
       { name: "OCR & Document AI", href: "#solutions" },
       { name: "Multilingual Chatbots", href: "#solutions" },
-      { name: "Educational Tools", href: "#solutions" }
+      { name: "Educational Tools", href: "#solutions" },
+      { name: "UPI Payment", href: "/upi-payment" }
     ],
     resources: [
       { name: "Developer Docs", href: "#resources" },
