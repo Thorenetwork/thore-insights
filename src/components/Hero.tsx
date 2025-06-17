@@ -7,6 +7,35 @@ interface HeroProps {
 }
 
 const Hero = ({ onWatchVideo }: HeroProps) => {
+  const handleTryDemo = () => {
+    const solutionsSection = document.getElementById('solutions');
+    solutionsSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleExplorePlatform = () => {
+    const platformSection = document.getElementById('platform');
+    platformSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleUploadDocument = () => {
+    // Create a simple demo functionality
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.pdf,.doc,.docx,.txt';
+    fileInput.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        alert(`Document "${file.name}" uploaded successfully! Our AI will process it for translation.`);
+      }
+    };
+    fileInput.click();
+  };
+
+  const handleJoinFellowship = () => {
+    const contactSection = document.getElementById('contact');
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="home" className="py-20 px-4 bg-gradient-to-br from-orange-50 via-white to-red-50">
       <div className="container mx-auto text-center">
@@ -35,6 +64,7 @@ const Hero = ({ onWatchVideo }: HeroProps) => {
             <Button 
               size="lg" 
               variant="outline"
+              onClick={handleExplorePlatform}
               className="px-8 py-4 text-lg animate-fade-in hover-scale border-orange-500 text-orange-600 hover:bg-orange-50"
             >
               <Globe className="w-5 h-5 mr-2" />
@@ -49,21 +79,21 @@ const Hero = ({ onWatchVideo }: HeroProps) => {
               <Mic className="w-12 h-12 text-orange-500 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Try Voice-to-Text Demo</h3>
               <p className="text-gray-600 mb-4">Experience real-time speech recognition in your language</p>
-              <Button className="w-full bg-orange-500 hover:bg-orange-600">Try Demo</Button>
+              <Button onClick={handleTryDemo} className="w-full bg-orange-500 hover:bg-orange-600">Try Demo</Button>
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
               <Upload className="w-12 h-12 text-blue-500 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Upload Document to Translate</h3>
               <p className="text-gray-600 mb-4">Instant translation for documents in local languages</p>
-              <Button className="w-full bg-blue-500 hover:bg-blue-600">Upload Now</Button>
+              <Button onClick={handleUploadDocument} className="w-full bg-blue-500 hover:bg-blue-600">Upload Now</Button>
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
               <Users className="w-12 h-12 text-green-500 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Join AI Bhasha Fellowship</h3>
               <p className="text-gray-600 mb-4">Be part of India's language AI revolution</p>
-              <Button className="w-full bg-green-500 hover:bg-green-600">Join Fellowship</Button>
+              <Button onClick={handleJoinFellowship} className="w-full bg-green-500 hover:bg-green-600">Join Fellowship</Button>
             </div>
           </div>
         </div>

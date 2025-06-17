@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Building, Users, Briefcase, Heart } from 'lucide-react';
@@ -15,7 +14,7 @@ const Partners = () => {
     { name: "Microsoft India", type: "Technology", logo: "🖥️" },
     { name: "Google Cloud India", type: "Technology", logo: "☁️" },
     { name: "Amazon Web Services", type: "Technology", logo: "🔧" },
-    { name: "Tata Consultancy Services", type: "Technology", logo: "🏢" }
+    { name: "Infosys Limited", type: "Technology", logo: "🏢" }
   ];
 
   const academicPartners = [
