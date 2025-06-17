@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Play, Languages } from 'lucide-react';
@@ -16,11 +15,7 @@ const Header = ({ onWatchVideo }: HeaderProps) => {
     { name: 'Solutions', href: '#solutions' },
     { name: 'Languages', href: '#languages' },
     { name: 'Platform', href: '#platform' },
-    { name: 'Impact', href: '#impact' },
-    { name: 'Partners', href: '#partners' },
-    { name: 'Resources', href: '#resources' },
-    { name: 'Careers', href: '#careers' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Impact', href: '#impact' }
   ];
 
   return (
