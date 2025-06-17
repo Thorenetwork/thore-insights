@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Play, Users, MapPin, Square, Volume2 } from 'lucide-react';
@@ -7,6 +7,26 @@ import { toast } from 'sonner';
 const LanguageMap = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('hindi');
   const [isPlaying, setIsPlaying] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  // Load voices when component mounts
+  useEffect(() => {
+    const loadVoices = () => {
+      const availableVoices = window.speechSynthesis.getVoices();
+      setVoices(availableVoices);
+      console.log('Available voices:', availableVoices);
+    };
+
+    // Load voices immediately if available
+    loadVoices();
+
+    // Also listen for the voiceschanged event (Chrome needs this)
+    window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+
+    return () => {
+      window.speechSynthesis.removeEventListener('voiceschanged', loadVoices);
+    };
+  }, []);
 
   const languages = {
     hindi: { 
@@ -107,43 +127,66 @@ const LanguageMap = () => {
       // Check if browser supports speech synthesis
       if (!window.speechSynthesis) {
         toast.error("Speech synthesis not supported in this browser");
+        setIsPlaying(false);
         return;
       }
 
       // Cancel any ongoing speech
       window.speechSynthesis.cancel();
+      
+      // Wait a bit for cancel to complete
+      await new Promise(resolve => setTimeout(resolve, 100));
 
+      console.log(`Playing voice demo for ${language.name}: ${language.sampleText}`);
+      
       const utterance = new SpeechSynthesisUtterance(language.sampleText);
       
       // Try to find the appropriate voice
-      const voices = window.speechSynthesis.getVoices();
-      const targetVoice = voices.find(voice => 
-        voice.lang.startsWith(language.voiceLang.split('-')[0]) || 
-        voice.lang === language.voiceLang
+      let targetVoice = voices.find(voice => 
+        voice.lang === language.voiceLang || 
+        voice.lang.startsWith(language.voiceLang.split('-')[0])
       );
+
+      // If no specific voice found, try to find any voice with the language code
+      if (!targetVoice) {
+        const langCode = language.voiceLang.split('-')[0];
+        targetVoice = voices.find(voice => voice.lang.startsWith(langCode));
+      }
+
+      // Fallback to default voice if no match found
+      if (!targetVoice && voices.length > 0) {
+        targetVoice = voices.find(voice => voice.default) || voices[0];
+      }
       
       if (targetVoice) {
         utterance.voice = targetVoice;
+        console.log(`Using voice: ${targetVoice.name} (${targetVoice.lang})`);
+      } else {
+        console.log('No specific voice found, using default');
       }
       
       utterance.rate = 0.8;
       utterance.pitch = 1;
       utterance.volume = 1;
+      utterance.lang = language.voiceLang;
 
       utterance.onstart = () => {
+        console.log(`Speech started for ${language.name}`);
         toast.success(`Playing ${language.name} voice demo`);
       };
 
       utterance.onend = () => {
+        console.log(`Speech ended for ${language.name}`);
         setIsPlaying(false);
       };
 
       utterance.onerror = (error) => {
         console.error('Speech synthesis error:', error);
-        toast.error(`Voice demo failed for ${language.name}`);
+        toast.error(`Voice demo failed for ${language.name}: ${error.error}`);
         setIsPlaying(false);
       };
 
+      console.log('Starting speech synthesis...');
       window.speechSynthesis.speak(utterance);
       
     } catch (error) {
@@ -163,8 +206,10 @@ const LanguageMap = () => {
   };
 
   const stopVoice = () => {
+    console.log('Stopping speech synthesis...');
     window.speechSynthesis.cancel();
     setIsPlaying(false);
+    toast.info('Voice demo stopped');
   };
 
   return (
