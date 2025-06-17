@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Insights from "./pages/Insights";
 import UpiPayment from "./pages/UpiPayment";
 import NotFound from "./pages/NotFound";
+import AIMitraButton from "./components/AIMitraButton";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <AIMitraButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
