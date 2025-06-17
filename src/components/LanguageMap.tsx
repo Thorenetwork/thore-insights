@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,7 @@ const LanguageMap = () => {
       speakers: "600M+", 
       region: "North India", 
       color: "bg-red-500",
-      sampleText: "नमस्ते, मैं हिंदी में बात कर सकता हूं।",
+      sampleText: "थोरे इनसाइट्स में आपका स्वागत है",
       voiceLang: "hi-IN"
     },
     bengali: { 
@@ -23,7 +22,7 @@ const LanguageMap = () => {
       speakers: "300M+", 
       region: "West Bengal, Bangladesh", 
       color: "bg-green-500",
-      sampleText: "নমস্কার, আমি বাংলায় কথা বলতে পারি।",
+      sampleText: "থোরে ইনসাইটস-এ আপনাদের স্বাগতম",
       voiceLang: "bn-IN"
     },
     tamil: { 
@@ -31,7 +30,7 @@ const LanguageMap = () => {
       speakers: "75M+", 
       region: "Tamil Nadu, Sri Lanka", 
       color: "bg-blue-500",
-      sampleText: "வணக்கம், நான் தமிழில் பேச முடியும்.",
+      sampleText: "தோரே இன்சைட்ஸில் உங்களை வரவேற்கிறோம்",
       voiceLang: "ta-IN"
     },
     telugu: { 
@@ -39,7 +38,7 @@ const LanguageMap = () => {
       speakers: "75M+", 
       region: "Andhra Pradesh, Telangana", 
       color: "bg-purple-500",
-      sampleText: "నమస్కారం, నేను తెలుగులో మాట్లాడగలను.",
+      sampleText: "థోర్ ఇన్‌సైట్స్‌లో మీకు స్వాగతం",
       voiceLang: "te-IN"
     },
     marathi: { 
@@ -47,7 +46,7 @@ const LanguageMap = () => {
       speakers: "83M+", 
       region: "Maharashtra", 
       color: "bg-orange-500",
-      sampleText: "नमस्कार, मी मराठीत बोलू शकतो.",
+      sampleText: "थोरे इन्साइट्स मध्ये तुमचे स्वागत आहे",
       voiceLang: "mr-IN"
     },
     gujarati: { 
@@ -55,7 +54,7 @@ const LanguageMap = () => {
       speakers: "56M+", 
       region: "Gujarat", 
       color: "bg-yellow-500",
-      sampleText: "નમસ્તે, હું ગુજરાતીમાં બોલી શકું છું.",
+      sampleText: "થોરે ઇન્સાઇટ્સમાં તમારું સ્વાગત છે",
       voiceLang: "gu-IN"
     },
     kannada: { 
@@ -63,7 +62,7 @@ const LanguageMap = () => {
       speakers: "44M+", 
       region: "Karnataka", 
       color: "bg-pink-500",
-      sampleText: "ನಮಸ್ಕಾರ, ನಾನು ಕನ್ನಡದಲ್ಲಿ ಮಾತನಾಡಬಲ್ಲೆ.",
+      sampleText: "ತೋರೆ ಇನ್‌ಸೈಟ್ಸ್‌ಗೆ ನಿಮಗೆ ಸ್ವಾಗತ",
       voiceLang: "kn-IN"
     },
     odia: { 
@@ -71,7 +70,7 @@ const LanguageMap = () => {
       speakers: "38M+", 
       region: "Odisha", 
       color: "bg-indigo-500",
-      sampleText: "ନମସ୍କାର, ମୁଁ ଓଡ଼ିଆରେ କହିପାରିବି।",
+      sampleText: "ଥୋରେ ଇନ୍‌ସାଇଟ୍‌ସରେ ଆପଣଙ୍କୁ ସ୍ୱାଗତ",
       voiceLang: "or-IN"
     },
     malayalam: { 
@@ -79,7 +78,7 @@ const LanguageMap = () => {
       speakers: "35M+", 
       region: "Kerala", 
       color: "bg-teal-500",
-      sampleText: "നമസ്കാരം, എനിക്ക് മലയാളത്തിൽ സംസാരിക്കാൻ കഴിയും.",
+      sampleText: "തോരെ ഇൻസൈറ്റ്സിലേക്ക് നിങ്ങൾക്ക് സ്വാഗതം",
       voiceLang: "ml-IN"
     },
     punjabi: { 
@@ -87,7 +86,7 @@ const LanguageMap = () => {
       speakers: "33M+", 
       region: "Punjab", 
       color: "bg-cyan-500",
-      sampleText: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ, ਮੈਂ ਪੰਜਾਬੀ ਵਿੱਚ ਬੋਲ ਸਕਦਾ ਹਾਂ।",
+      sampleText: "ਥੋਰੇ ਇਨਸਾਈਟਸ ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਆਗਤ ਹੈ",
       voiceLang: "pa-IN"
     }
   };
