@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Play, Languages } from 'lucide-react';
+import { Menu, X, Play, Brain } from 'lucide-react';
 
 interface HeaderProps {
   onWatchVideo: () => void;
@@ -9,22 +10,31 @@ interface HeaderProps {
 
 const Header = ({ onWatchVideo }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navigationItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Solutions', href: '#solutions' },
-    { name: 'Languages', href: '#languages' },
-    { name: 'Platform', href: '#platform' },
-    { name: 'Impact', href: '#impact' }
+    { name: 'Home', href: '/#home' },
+    { name: 'About', href: '/#about' },
+    { name: 'Solutions', href: '/#solutions' },
+    { name: 'Languages', href: '/#languages' },
+    { name: 'Platform', href: '/#platform' },
+    { name: 'Impact', href: '/#impact' },
+    { name: 'Insights', href: '/insights', isRoute: true }
   ];
+
+  const isActive = (href: string) => {
+    if (href.startsWith('/#')) {
+      return location.pathname === '/' && location.hash === href.substring(1);
+    }
+    return location.pathname === href;
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50 border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-4">
+          <Link to="/" className="flex items-center space-x-4">
             <img 
               src="/lovable-uploads/ba9957ad-65c7-4fb1-8e5d-9e9e114037c2.png" 
               alt="ThoreCoin Logo" 
@@ -34,18 +44,37 @@ const Header = ({ onWatchVideo }: HeaderProps) => {
               <h1 className="font-bold text-xl text-gray-900">Thore Network PVT LTD</h1>
               <p className="text-xs text-gray-600">Indic Language Revolution Project</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-gray-700 hover:text-orange-600 font-medium text-sm transition-colors"
-              >
-                {item.name}
-              </a>
+              item.isRoute ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`font-medium text-sm transition-colors flex items-center gap-2 ${
+                    isActive(item.href) 
+                      ? 'text-orange-600' 
+                      : 'text-gray-700 hover:text-orange-600'
+                  }`}
+                >
+                  {item.name === 'Insights' && <Brain className="w-4 h-4" />}
+                  {item.name}
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={`font-medium text-sm transition-colors ${
+                    isActive(item.href) 
+                      ? 'text-orange-600' 
+                      : 'text-gray-700 hover:text-orange-600'
+                  }`}
+                >
+                  {item.name}
+                </a>
+              )
             ))}
           </nav>
 
@@ -74,14 +103,34 @@ const Header = ({ onWatchVideo }: HeaderProps) => {
           <div className="lg:hidden py-4 border-t">
             <nav className="flex flex-col space-y-4">
               {navigationItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-orange-600 font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
+                item.isRoute ? (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`font-medium py-2 flex items-center gap-2 ${
+                      isActive(item.href) 
+                        ? 'text-orange-600' 
+                        : 'text-gray-700 hover:text-orange-600'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name === 'Insights' && <Brain className="w-4 h-4" />}
+                    {item.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`font-medium py-2 ${
+                      isActive(item.href) 
+                        ? 'text-orange-600' 
+                        : 'text-gray-700 hover:text-orange-600'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                )
               ))}
               <Button 
                 onClick={() => {
