@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,28 +13,28 @@ const Contact = () => {
       icon: <Mail className="w-8 h-8 text-blue-600" />,
       title: "General Inquiries",
       description: "For general questions about our platform and services",
-      contact: "hello@indiclanguage.in",
+      contact: "hello@thorenetwork.com",
       responseTime: "24 hours"
     },
     {
       icon: <MessageCircle className="w-8 h-8 text-green-600" />,
       title: "Platform Support",
       description: "Technical support for developers and API users",
-      contact: "support@indiclanguage.in",
+      contact: "support@thorenetwork.com",
       responseTime: "4 hours"
     },
     {
       icon: <Building className="w-8 h-8 text-purple-600" />,
       title: "NGO/Govt Partnerships",
       description: "Collaboration opportunities for organizations",
-      contact: "partnerships@indiclanguage.in",
+      contact: "partnerships@thorenetwork.com",
       responseTime: "48 hours"
     },
     {
       icon: <Globe className="w-8 h-8 text-orange-600" />,
       title: "Contribute a Language",
       description: "Help us add support for new languages or dialects",
-      contact: "community@indiclanguage.in",
+      contact: "community@thorenetwork.com",
       responseTime: "72 hours"
     }
   ];
