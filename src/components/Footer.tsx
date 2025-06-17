@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
@@ -75,6 +76,22 @@ const Footer = () => {
             </div>
             <p className="text-sm text-white/80 mt-4">
               Join 25,000+ subscribers. No spam, unsubscribe anytime.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Big Logo Section */}
+      <div className="py-16 border-b border-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <img 
+              src="/lovable-uploads/6e638872-de1d-4b8c-8e00-e8a7d214996e.png" 
+              alt="IndiaAI - A Meity Initiative" 
+              className="mx-auto h-24 md:h-32 lg:h-40 object-contain mb-6"
+            />
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Powering India's AI revolution with cutting-edge Indic language technology
             </p>
           </div>
         </div>
