@@ -1,12 +1,15 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { QrCode, Send, MessageCircle, Smartphone, Shield, Clock, Languages, CheckCircle, X, Mic, Volume2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import QRCodeGenerator from '@/components/QRCodeGenerator';
+import PaymentProcessor from '@/components/PaymentProcessor';
+import PaymentSuccess from '@/components/PaymentSuccess';
 
 interface ChatMessage {
   id: string;
@@ -17,6 +20,7 @@ interface ChatMessage {
 }
 
 const UpiPayment = () => {
+  const navigate = useNavigate();
   const [selectedLanguage, setSelectedLanguage] = useState('hindi');
   const [paymentAmount, setPaymentAmount] = useState('');
   const [recipientUpi, setRecipientUpi] = useState('');
@@ -24,6 +28,8 @@ const UpiPayment = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [currentView, setCurrentView] = useState('form'); // form, qr, processing, success
+  const [transactionId, setTransactionId] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   const languages = {
@@ -35,6 +41,7 @@ const UpiPayment = () => {
       amount: 'राशि दर्ज करें',
       recipient: 'प्राप्तकर्ता का UPI ID',
       payNow: 'अभी भुगतान करें',
+      generateQR: 'QR कोड बनाएं',
       features: {
         instant: 'तुरंत भुगतान',
         secure: '100% सुरक्षित',
@@ -54,6 +61,7 @@ const UpiPayment = () => {
       amount: 'தொகையை உள்ளிடவும்',
       recipient: 'பெறுநரின் UPI ID',
       payNow: 'இப்போது செலுத்தவும்',
+      generateQR: 'QR குறியீடு உருவாக்கவும்',
       features: {
         instant: 'உடனடி கட்டணம்',
         secure: '100% பாதுகாப்பு',
@@ -73,6 +81,7 @@ const UpiPayment = () => {
       amount: 'পরিমাণ লিখুন',
       recipient: 'প্রাপকের UPI ID',
       payNow: 'এখনই পেমেন্ট করুন',
+      generateQR: 'QR কোড তৈরি করুন',
       features: {
         instant: 'তাৎক্ষণিক পেমেন্ট',
         secure: '১০০% নিরাপদ',
@@ -139,14 +148,13 @@ const UpiPayment = () => {
 
     setChatMessages(prev => [...prev, userMessage]);
 
-    // Simple bot response logic
     setTimeout(() => {
       let botResponse = botResponses[selectedLanguage].help;
 
       const message = currentMessage.toLowerCase();
       if (message.includes('बैलेंस') || message.includes('balance') || message.includes('நிலுவை') || message.includes('ব্যালেন্স')) {
         botResponse = botResponses[selectedLanguage].balance;
-      } else if (message.includes('सीमा') || message.includes('limit') || message.includes('வரம্প') || message.includes('সীমা')) {
+      } else if (message.includes('सीमा') || message.includes('limit') || message.includes('வரம்ப') || message.includes('সীমা')) {
         botResponse = botResponses[selectedLanguage].limit;
       } else if (message.includes('असफल') || message.includes('failed') || message.includes('தோல்வி') || message.includes('ব্যর্থ')) {
         botResponse = botResponses[selectedLanguage].failed;
@@ -173,16 +181,40 @@ const UpiPayment = () => {
             'দয়া করে সব ক্ষেত্র পূরণ করুন');
       return;
     }
+    setCurrentView('processing');
+  };
 
-    // Simulate payment processing
-    alert(selectedLanguage === 'hindi' ? `₹${paymentAmount} का भुगतान ${recipientUpi} को सफलतापূर্वक भेजा गया!` :
-          selectedLanguage === 'tamil' ? `₹${paymentAmount} ${recipientUpi} க்கு வெற்றிகரமாக அனுப்பப்பட்டது!` :
-          `₹${paymentAmount} সফলভাবে ${recipientUpi} এ পাঠানো হয়েছে!`);
+  const handleGenerateQR = () => {
+    if (!paymentAmount || !recipientUpi) {
+      alert(selectedLanguage === 'hindi' ? 'कृपया सभी फील्ड भरें' : 
+            selectedLanguage === 'tamil' ? 'தயவுசெய்து அனைத்த புலங்களையும் நிரப்பவும்' :
+            'দয়া করে সব ক্ষেত্র পূরণ করুন');
+      return;
+    }
+    setCurrentView('qr');
+  };
+
+  const handlePaymentComplete = (success: boolean) => {
+    if (success) {
+      setTransactionId(`TXN${Date.now()}`);
+      setCurrentView('success');
+    } else {
+      setCurrentView('form');
+    }
+  };
+
+  const handleNewPayment = () => {
+    setPaymentAmount('');
+    setRecipientUpi('');
+    setCurrentView('form');
+  };
+
+  const handleHome = () => {
+    navigate('/');
   };
 
   const startVoiceInput = () => {
     setIsListening(true);
-    // Simulate voice input (in real app, you'd use Web Speech API)
     setTimeout(() => {
       setCurrentMessage(selectedLanguage === 'hindi' ? 'मेरा बैलेंस क्या है?' :
                        selectedLanguage === 'tamil' ? 'என் நிலுவை என்ன?' :
@@ -200,34 +232,48 @@ const UpiPayment = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
-      <Header onWatchVideo={() => {}} />
-      
-      <div className="container mx-auto px-4 py-8">
-        {/* Language Selector */}
-        <div className="flex justify-center mb-8">
-          <div className="flex space-x-2 bg-white rounded-lg p-1 shadow-lg">
-            {Object.entries(languages).map(([key, lang]) => (
-              <button
-                key={key}
-                onClick={() => setSelectedLanguage(key)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${
-                  selectedLanguage === key
-                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                <span>{lang.flag}</span>
-                <span className="font-medium">{lang.name}</span>
-              </button>
-            ))}
+  const renderMainContent = () => {
+    switch (currentView) {
+      case 'qr':
+        return (
+          <div className="max-w-md mx-auto">
+            <QRCodeGenerator 
+              amount={paymentAmount}
+              upiId={recipientUpi}
+              language={selectedLanguage}
+            />
+            <Button 
+              onClick={() => setCurrentView('form')} 
+              variant="outline" 
+              className="w-full mt-4"
+            >
+              ← Back to Form
+            </Button>
           </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Payment Section */}
+        );
+      case 'processing':
+        return (
+          <PaymentProcessor
+            amount={paymentAmount}
+            upiId={recipientUpi}
+            language={selectedLanguage}
+            onBack={() => setCurrentView('form')}
+            onComplete={handlePaymentComplete}
+          />
+        );
+      case 'success':
+        return (
+          <PaymentSuccess
+            amount={paymentAmount}
+            upiId={recipientUpi}
+            language={selectedLanguage}
+            transactionId={transactionId}
+            onNewPayment={handleNewPayment}
+            onHome={handleHome}
+          />
+        );
+      default:
+        return (
           <div className="space-y-6">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">{currentLang.title}</h1>
@@ -283,15 +329,59 @@ const UpiPayment = () => {
                     onChange={(e) => setRecipientUpi(e.target.value)}
                   />
                 </div>
-                <Button
-                  onClick={handlePayment}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-lg py-3"
-                >
-                  <Send className="w-5 h-5 mr-2" />
-                  {currentLang.payNow}
-                </Button>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button
+                    onClick={handlePayment}
+                    className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    {currentLang.payNow}
+                  </Button>
+                  <Button
+                    onClick={handleGenerateQR}
+                    variant="outline"
+                  >
+                    <QrCode className="w-4 h-4 mr-2" />
+                    {currentLang.generateQR}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
+          </div>
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+      <Header onWatchVideo={() => {}} />
+      
+      <div className="container mx-auto px-4 py-8">
+        {/* Language Selector */}
+        <div className="flex justify-center mb-8">
+          <div className="flex space-x-2 bg-white rounded-lg p-1 shadow-lg">
+            {Object.entries(languages).map(([key, lang]) => (
+              <button
+                key={key}
+                onClick={() => setSelectedLanguage(key)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${
+                  selectedLanguage === key
+                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <span>{lang.flag}</span>
+                <span className="font-medium">{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Payment Section */}
+          <div className="space-y-6">
+            {renderMainContent()}
           </div>
 
           {/* Chatbot Section */}
@@ -411,7 +501,7 @@ const UpiPayment = () => {
                 </h3>
               </div>
               <p className="text-gray-600">
-                {selectedLanguage === 'hindi' ? 'आपकी मातृभाষा में UPI सेवा' :
+                {selectedLanguage === 'hindi' ? 'आपकी मातृभाषा में UPI सेवा' :
                  selectedLanguage === 'tamil' ? 'உங்கள் தாய்மொழியில் UPI சேவை' :
                  'আপনার মাতৃভাষায় UPI সেবা'}
               </p>
